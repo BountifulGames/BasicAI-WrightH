@@ -9,15 +9,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float cameraRange = 90f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private Camera playerCam;
+    [SerializeField] private GameObject gameController;
 
 
     private float gravity = -9.8f;
     private float vertVelocity = 0;
     private float cameraVertical = 0;
     private CharacterController characterController;
+    private Player _player;
 
     private void Start()
     {
+        _player = gameObject.AddComponent<Player>();
         characterController = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -27,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         UpdateCamera();
         UpdateMovement();
+        
     }
 
     private void UpdateCamera()
@@ -66,6 +70,11 @@ public class PlayerController : MonoBehaviour
         speed = transform.rotation * speed;
 
         characterController.Move(speed * Time.deltaTime);
+    }
+
+    public void UpdateUI()
+    {
+
     }
 
 }

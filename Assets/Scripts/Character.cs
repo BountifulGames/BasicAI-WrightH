@@ -6,23 +6,30 @@ public class Character : MonoBehaviour
 {
     private float health = 100f;
 
-    public float Health {  get { return health; } }
+    public float Health { get { return health; } set { health = value; } }
 
+    public virtual void TakeDamage(float damage)
+    {
+        Health -= damage;
+        Health = Mathf.Max(health, 0);
+    }
 }
 
 public class Player : Character
 {
-
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        gameObject.GetComponent<PlayerController>().UpdateUI();
+    }
 }
 
 public class Enemy : Character
 {
-    private float detectionRange = 10f;
-    private GameObject player;
-
-    private void Start()
+    public override void TakeDamage(float damage)
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        base.TakeDamage(damage);
+        gameObject.GetComponent<EnemyController>().UpdateHealth();
     }
 
 }
