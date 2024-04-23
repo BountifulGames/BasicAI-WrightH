@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
 
     public float Health { get { return health; } set { health = value; } }
 
+
     public virtual void TakeDamage(float damage)
     {
         Health -= damage;
@@ -19,6 +20,7 @@ public class Player : Character
 {
     public override void TakeDamage(float damage)
     {
+
         base.TakeDamage(damage);
         gameObject.GetComponent<PlayerController>().UpdateUI();
     }

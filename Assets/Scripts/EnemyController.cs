@@ -14,7 +14,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private TMP_Text healthBar;
     [SerializeField] private GameController gm;
 
-    private float detectionRange = 5f;
+    private float detectionRange = 6f;
     private GameObject player;
     private Enemy enemy;
 
@@ -22,14 +22,14 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        patrolPoints = GameObject.FindGameObjectsWithTag("Patrol Point");
+        //patrolPoints = GameObject.FindGameObjectsWithTag("Patrol Point");
         enemy = gameObject.AddComponent<Enemy>();
 
-        foreach (GameObject point in patrolPoints)
-        {
-            patrolPointsPos.Add(point.transform);
+        //foreach (GameObject point in patrolPoints)
+        //{
+        //    patrolPointsPos.Add(point.transform);
 
-        }
+        //}
 
     }
 
@@ -60,8 +60,10 @@ public class EnemyController : MonoBehaviour
 
         if (enemy.Health <= 0)
         {
-            gm.GamestateUpdate();
+            gm.enemyCount--;
             Destroy(gameObject);
+            gm.GamestateUpdate();
         }
     }
+
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,8 +11,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private Camera playerCam;
     [SerializeField] private GameObject gameController;
+    [SerializeField] private TMP_Text playerHealthText;
+    [SerializeField] private float damageCooldown = 1.0f;
 
-
+    private float lastDamageTime = 0;
     private float gravity = -9.8f;
     private float vertVelocity = 0;
     private float cameraVertical = 0;
@@ -74,7 +77,25 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateUI()
     {
+        playerHealthText.text = "Health: " + _player.Health;
+        if (_player.Health <= 0)
+        {
+            gameController.GetComponent<GameController>().GameOver();
+        }
+    }
 
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit by enemy");
+            if (Time.time - lastDamageTime >= damageCooldown) //damage cooldown so the enemy jittering doesnt immediately kill me
+            {
+                _player.TakeDamage(10f);
+
+                lastDamageTime = Time.time;
+            }
+        }
     }
 
 }
